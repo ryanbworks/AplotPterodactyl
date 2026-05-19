@@ -1,0 +1,72 @@
+.stat_block {
+    @apply flex items-center rounded-xl shadow-lg relative border border-zinc-800;
+    @apply col-span-3 md:col-span-2 lg:col-span-6;
+    @apply px-3 py-2 md:p-3 lg:p-4;
+    background: rgba(12, 12, 14, 0.82);
+    box-shadow: 0 18px 45px rgba(0, 0, 0, 0.35);
+
+    & > .status_bar {
+        @apply w-1 h-full absolute left-0 top-0 rounded-l sm:hidden;
+    }
+
+    & > .icon {
+        @apply hidden flex-shrink-0 items-center justify-center rounded-xl shadow-md w-12 h-12;
+        @apply transition-colors duration-500;
+        @apply sm:flex sm:mr-4;
+        box-shadow: 0 0 18px rgba(34, 197, 94, 0.14);
+
+        & > svg {
+            @apply w-6 h-6 m-auto;
+        }
+    }
+}
+
+.terminal {
+    @apply flex flex-col w-full h-full;
+
+    & .overflows_container {
+        @apply -ml-4 sm:ml-0;
+        width: calc(100% + 2rem);
+
+        @screen sm {
+            @apply w-full;
+        }
+    }
+
+    & > .container {
+        @apply rounded-t-xl p-1 sm:p-2 flex-1 font-mono text-sm border border-zinc-800;
+        min-height: clamp(32rem, 58vh, 44rem);
+        background: #050505;
+
+        & #terminal {
+            @apply h-full;
+
+            &::-webkit-scrollbar-track {
+                @apply w-2;
+            }
+
+            &::-webkit-scrollbar-thumb {
+                @apply bg-green-500/30;
+            }
+        }
+    }
+
+    & .command_icon {
+        @apply flex items-center top-0 left-0 absolute z-10 select-none h-full px-3 transition-colors duration-100;
+    }
+
+    & .command_input {
+        @apply relative px-2 text-gray-100 pl-10 pr-4 py-3 w-full font-mono text-sm sm:rounded-b-xl border border-zinc-800;
+        background: rgba(12, 12, 14, 0.95);
+        @apply focus:ring-0 outline-none focus-visible:outline-none;
+        @apply border-0 border-b-2 border-transparent transition-colors duration-100;
+        @apply active:border-green-500 focus:border-green-500;
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03);
+    }
+}
+
+.chart_container {
+    @apply rounded-xl shadow-lg pt-2 border border-zinc-800 relative overflow-hidden;
+    background: rgba(12, 12, 14, 0.82);
+    box-shadow: 0 18px 45px rgba(0, 0, 0, 0.35);
+}

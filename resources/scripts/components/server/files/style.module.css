@@ -1,0 +1,35 @@
+.manager_actions {
+    @apply grid grid-cols-2 sm:grid-cols-3 w-full gap-4 mb-4;
+
+    & button {
+        @apply w-full first:col-span-2 sm:first:col-span-1;
+    }
+
+    @screen md {
+        @apply flex flex-1 justify-end mb-0;
+
+        & button {
+            @apply w-auto;
+        }
+    }
+}
+
+.file_row {
+    @apply flex items-center cursor-pointer rounded-xl mb-2 text-sm no-underline border border-zinc-800 transition-all duration-150 overflow-hidden;
+    background: rgba(12, 12, 14, 0.86);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.22);
+
+    &:hover {
+        @apply text-neutral-100 border-green-500/30;
+        background: rgba(18, 18, 20, 0.95);
+        box-shadow: 0 0 18px rgba(34, 197, 94, 0.12), 0 12px 32px rgba(0, 0, 0, 0.28);
+    }
+
+    & > .details {
+        @apply flex flex-1 items-center text-neutral-300 no-underline px-4 py-3 overflow-hidden truncate;
+
+        &:not(a) {
+            @apply cursor-default;
+        }
+    }
+}
