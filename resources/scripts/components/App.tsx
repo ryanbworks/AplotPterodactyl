@@ -61,7 +61,7 @@ const App = () => {
             <GlobalStylesheet />
             <StoreProvider store={store}>
                 <ProgressBar />
-                <div css={tw`mx-auto w-auto`}>
+                <div css={tw`w-full bg-[#050505] min-h-screen`}>
                     <Router history={history}>
                         <Switch>
                             <Route path={'/auth'}>

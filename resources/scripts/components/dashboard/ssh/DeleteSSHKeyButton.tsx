@@ -1,11 +1,10 @@
 import tw from 'twin.macro';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 import React, { useState } from 'react';
 import { useFlashKey } from '@/plugins/useFlash';
 import { deleteSSHKey, useSSHKeys } from '@/api/account/ssh-keys';
 import { Dialog } from '@/components/elements/dialog';
 import Code from '@/components/elements/Code';
+import { Trash2, ShieldAlert } from 'lucide-react';
 
 export default ({ name, fingerprint }: { name: string; fingerprint: string }) => {
     const { clearAndAddHttpError } = useFlashKey('account');
@@ -28,18 +27,23 @@ export default ({ name, fingerprint }: { name: string; fingerprint: string }) =>
         <>
             <Dialog.Confirm
                 open={visible}
-                title={'Delete SSH Key'}
-                confirm={'Delete Key'}
+                title={'Deletar Chave SSH'}
+                confirm={'Deletar Chave'}
                 onConfirmed={onClick}
                 onClose={() => setVisible(false)}
             >
-                Removing the <Code>{name}</Code> SSH key will invalidate its usage across the Panel.
+                <div className={'bg-zinc-950/50 border border-zinc-800/50 p-4 rounded-xl flex gap-3 items-start'}>
+                    <ShieldAlert size={20} className={'text-red-500 shrink-0 mt-0.5'} />
+                    <p className={'text-sm text-zinc-400 leading-relaxed'}>
+                        Remover a chave SSH <Code>{name}</Code> invalidará o seu uso em todo o painel imediatamente.
+                    </p>
+                </div>
             </Dialog.Confirm>
-            <button css={tw`ml-4 p-2 text-sm`} onClick={() => setVisible(true)}>
-                <FontAwesomeIcon
-                    icon={faTrashAlt}
-                    css={tw`text-neutral-400 hover:text-red-400 transition-colors duration-150`}
-                />
+            <button 
+                className={'ml-4 p-2 rounded-lg text-zinc-500 hover:text-red-500 hover:bg-red-500/10 transition-all'}
+                onClick={() => setVisible(true)}
+            >
+                <Trash2 size={18} />
             </button>
         </>
     );

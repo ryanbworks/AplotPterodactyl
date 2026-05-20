@@ -30,16 +30,26 @@ export default () => {
             <SetupTOTPDialog open={visible === 'enable'} onClose={() => setVisible(null)} onTokens={onTokens} />
             <RecoveryTokensDialog tokens={tokens} open={tokens.length > 0} onClose={() => setTokens([])} />
             <DisableTOTPDialog open={visible === 'disable'} onClose={() => setVisible(null)} />
-            <p css={tw`text-sm`}>
+            <p css={tw`text-sm text-zinc-400`}>
                 {isEnabled
-                    ? 'Two-step verification is currently enabled on your account.'
-                    : 'You do not currently have two-step verification enabled on your account. Click the button below to begin configuring it.'}
+                    ? 'A autenticação de dois fatores está atualmente ativada na sua conta.'
+                    : 'Você não tem a autenticação de dois fatores ativada na sua conta. Clique no botão abaixo para começar a configurá-la.'}
             </p>
             <div css={tw`mt-6`}>
                 {isEnabled ? (
-                    <Button.Danger onClick={() => setVisible('disable')}>Disable Two-Step</Button.Danger>
+                    <button 
+                        className={'px-4 py-2.5 rounded-xl bg-red-500 text-white hover:bg-red-600 transition-all text-sm font-bold flex items-center justify-center gap-2'}
+                        onClick={() => setVisible('disable')}
+                    >
+                        Desativar 2FA
+                    </button>
                 ) : (
-                    <Button onClick={() => setVisible('enable')}>Enable Two-Step</Button>
+                    <button 
+                        className={'px-4 py-2.5 rounded-xl bg-green-500 text-white hover:bg-green-600 shadow-[0_0_15px_rgba(34,197,94,0.3)] hover:shadow-[0_0_25px_rgba(34,197,94,0.5)] transition-all duration-300 text-sm font-bold flex items-center justify-center gap-2'}
+                        onClick={() => setVisible('enable')}
+                    >
+                        Ativar 2FA
+                    </button>
                 )}
             </div>
         </div>

@@ -26,11 +26,13 @@ import {
     Settings,
     Activity,
     ExternalLink,
+    Pickaxe,
 } from 'lucide-react';
 import { useLocation } from 'react-router';
 import ConflictStateRenderer from '@/components/server/ConflictStateRenderer';
 import PermissionRoute from '@/components/elements/PermissionRoute';
 import routes from '@/routers/routes';
+import { isMinecraftJavaServer } from '@/api/server/minecraft';
 
 const NavigationIcon = ({ name }: { name: string }) => {
     switch (name.toLowerCase()) {
@@ -50,6 +52,8 @@ const NavigationIcon = ({ name }: { name: string }) => {
             return <Globe size={16} />;
         case 'startup':
             return <PlayCircle size={16} />;
+        case 'minecraft':
+            return <Pickaxe size={16} />;
         case 'settings':
             return <Settings size={16} />;
         case 'activity':
@@ -70,6 +74,7 @@ export default () => {
     const uuid = ServerContext.useStoreState((state) => state.server.data?.uuid);
     const inConflictState = ServerContext.useStoreState((state) => state.server.inConflictState);
     const serverId = ServerContext.useStoreState((state) => state.server.data?.internalId);
+    const server = ServerContext.useStoreState((state) => state.server.data);
     const getServer = ServerContext.useStoreActions((actions) => actions.server.getServer);
     const clearServerState = ServerContext.useStoreActions((actions) => actions.clearServerState);
 
@@ -118,6 +123,7 @@ export default () => {
                             <div>
                                 {routes.server
                                     .filter((route) => !!route.name)
+                                    .filter((route) => route.path !== '/minecraft' || isMinecraftJavaServer(server))
                                     .map((route) =>
                                         route.permission ? (
                                             <Can key={route.path} action={route.permission} matchAny>
@@ -168,4 +174,3 @@ export default () => {
         </React.Fragment>
     );
 };
-

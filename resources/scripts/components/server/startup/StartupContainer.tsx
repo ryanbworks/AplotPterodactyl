@@ -15,12 +15,24 @@ import setSelectedDockerImage from '@/api/server/setSelectedDockerImage';
 import InputSpinner from '@/components/elements/InputSpinner';
 import useFlash from '@/plugins/useFlash';
 import { Rocket, Info, Terminal, Box, ChevronRight } from 'lucide-react';
+import { isMinecraftJavaServer } from '@/api/server/minecraft';
+
+const MINECRAFT_VERSION_VARIABLES = [
+    'MINECRAFT_VERSION',
+    'VANILLA_VERSION',
+    'MC_VERSION',
+    'BUILD_NUMBER',
+    'FORGE_VERSION',
+    'SPONGE_VERSION',
+    'BUNGEE_VERSION',
+];
 
 const StartupContainer = () => {
     const [loading, setLoading] = useState(false);
     const { clearFlashes, clearAndAddHttpError } = useFlash();
 
     const uuid = ServerContext.useStoreState((state) => state.server.data!.uuid);
+    const server = ServerContext.useStoreState((state) => state.server.data!);
     const variables = ServerContext.useStoreState(
         ({ server }) => ({
             variables: server.data!.variables,
@@ -41,6 +53,10 @@ const StartupContainer = () => {
         !Object.values(data.dockerImages)
             .map((v) => v.toLowerCase())
             .includes(variables.dockerImage.toLowerCase());
+    const visibleVariables =
+        data && isMinecraftJavaServer(server)
+            ? data.variables.filter((variable) => !MINECRAFT_VERSION_VARIABLES.includes(variable.envVariable))
+            : data?.variables || [];
 
     useEffect(() => {
         mutate();
@@ -159,7 +175,7 @@ const StartupContainer = () => {
                         <ChevronRight size={20} className="text-zinc-600" />
                     </div>
                     <div css={tw`grid gap-6 md:grid-cols-2 lg:grid-cols-3`}>
-                        {data.variables.map((variable) => (
+                        {visibleVariables.map((variable) => (
                             <VariableBox key={variable.envVariable} variable={variable} />
                         ))}
                     </div>

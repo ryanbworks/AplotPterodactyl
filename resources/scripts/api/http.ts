@@ -1,11 +1,16 @@
 import axios, { AxiosInstance } from 'axios';
 import { store } from '@/state';
 
+const csrfToken = typeof document === 'undefined'
+    ? ''
+    : document.querySelector<HTMLMetaElement>('meta[name="csrf-token"]')?.content || '';
+
 const http: AxiosInstance = axios.create({
     withCredentials: true,
     timeout: 20000,
     headers: {
         'X-Requested-With': 'XMLHttpRequest',
+        'X-CSRF-TOKEN': csrfToken,
         Accept: 'application/json',
         'Content-Type': 'application/json',
     },

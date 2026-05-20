@@ -24,8 +24,11 @@ class ServerController extends ClientApiController
      */
     public function index(GetServerRequest $request, Server $server): array
     {
+        $transformer = $this->getTransformer(ServerTransformer::class);
+
         return $this->fractal->item($server)
-            ->transformWith($this->getTransformer(ServerTransformer::class))
+            ->transformWith($transformer)
+            ->parseIncludes($this->getIncludesForTransformer($transformer))
             ->addMeta([
                 'is_server_owner' => $request->user()->id === $server->owner_id,
                 'user_permissions' => $this->permissionsService->handle($server, $request->user()),

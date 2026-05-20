@@ -70,6 +70,14 @@ Route::group([
     Route::post('/command', [Client\Servers\CommandController::class, 'index']);
     Route::post('/power', [Client\Servers\PowerController::class, 'index']);
 
+    Route::get('/minecraft/query', [Client\Servers\MinecraftController::class, 'query']);
+    Route::get('/minecraft/profile', [Client\Servers\MinecraftController::class, 'profile']);
+    Route::get('/minecraft/versions/types', [Client\Servers\MinecraftController::class, 'versionTypes']);
+    Route::get('/minecraft/versions/installed', [Client\Servers\MinecraftController::class, 'installedVersion']);
+    Route::get('/minecraft/versions', [Client\Servers\MinecraftController::class, 'versions']);
+    Route::get('/minecraft/versions/builds', [Client\Servers\MinecraftController::class, 'versionBuilds']);
+    Route::post('/minecraft/versions/install', [Client\Servers\MinecraftController::class, 'installVersion']);
+
     Route::group(['prefix' => '/databases'], function () {
         Route::get('/', [Client\Servers\DatabaseController::class, 'index']);
         Route::middleware([ResourceLimit::Database->middleware()])

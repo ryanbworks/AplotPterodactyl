@@ -2,6 +2,7 @@ import http, { FractalResponseData, FractalResponseList } from '@/api/http';
 import { rawDataToServerAllocation, rawDataToServerEggVariable } from '@/api/transformers';
 import { ServerEggVariable, ServerStatus } from '@/api/server/types';
 import { Identifier } from '@/api/definitions';
+import { MinecraftEgg, rawDataToMinecraftEgg } from '@/api/server/minecraft';
 
 export interface Allocation {
     id: number;
@@ -52,6 +53,7 @@ export interface Server {
         threads: string;
     };
     eggFeatures: string[];
+    egg: MinecraftEgg | null;
     featureLimits: {
         databases: number;
         allocations: number;
@@ -81,6 +83,7 @@ export const rawDataToServerObject = ({ attributes: data }: FractalResponseData)
     description: data.description ? (data.description.length > 0 ? data.description : null) : null,
     limits: { ...data.limits },
     eggFeatures: data.egg_features || [],
+    egg: rawDataToMinecraftEgg((data.relationships?.egg as any)?.data as FractalResponseData | undefined),
     featureLimits: { ...data.feature_limits },
     isTransferring: data.is_transferring,
     variables: ((data.relationships?.variables as FractalResponseList | undefined)?.data || []).map(
@@ -93,7 +96,7 @@ export const rawDataToServerObject = ({ attributes: data }: FractalResponseData)
 
 export default (uuid: string): Promise<[Server, string[]]> => {
     return new Promise((resolve, reject) => {
-        http.get(`/api/client/servers/${uuid}`)
+        http.get(`/api/client/servers/${uuid}`, { params: { include: 'egg' } })
             .then(({ data }) =>
                 resolve([
                     rawDataToServerObject(data),

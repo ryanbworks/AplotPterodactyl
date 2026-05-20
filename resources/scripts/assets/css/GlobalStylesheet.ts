@@ -19,6 +19,10 @@ export default createGlobalStyle`
         letter-spacing: 0;
     }
 
+    html {
+        background-color: #050505 !important;
+    }
+
     #app {
         min-height: 100vh;
         background:
@@ -82,5 +86,25 @@ export default createGlobalStyle`
 
     ::-webkit-scrollbar-corner {
         background: transparent;
+    }
+
+    .fade-enter,
+    .fade-appear {
+        opacity: 0;
+    }
+
+    .fade-enter-active,
+    .fade-appear-active {
+        opacity: 1;
+        transition: opacity 150ms ease-in;
+    }
+
+    .fade-exit {
+        opacity: 1;
+    }
+
+    .fade-exit-active {
+        opacity: 0;
+        transition: opacity 150ms ease-in;
     }
 `;
