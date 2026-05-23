@@ -23,6 +23,7 @@ composer install \
     --no-interaction
 
 yarn --cwd "$WORK_DIR" install --frozen-lockfile
+mkdir -p "$WORK_DIR/public/assets"
 yarn --cwd "$WORK_DIR" build:production
 
 rm -rf "$WORK_DIR/node_modules"
