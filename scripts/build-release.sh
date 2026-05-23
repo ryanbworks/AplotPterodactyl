@@ -78,5 +78,6 @@ a new `APP_KEY`.
 EOF
 
 tar -C "$BUILD_DIR" -czf "$ARCHIVE" "$APP_NAME"
+cp "$ARCHIVE" "$BUILD_DIR/panel.tar.gz"
 
 echo "$ARCHIVE"
