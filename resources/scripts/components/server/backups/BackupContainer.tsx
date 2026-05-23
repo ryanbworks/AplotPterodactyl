@@ -10,7 +10,7 @@ import getServerBackups, { Context as ServerBackupContext } from '@/api/swr/getS
 import { ServerContext } from '@/state/server';
 import ServerContentBlock from '@/components/elements/ServerContentBlock';
 import Pagination from '@/components/elements/Pagination';
-import { Archive, Info, Database } from 'lucide-react';
+import { Archive, Info, Database, ShieldAlert } from 'lucide-react';
 
 const BackupContainer = () => {
     const { page, setPage } = useContext(ServerBackupContext);

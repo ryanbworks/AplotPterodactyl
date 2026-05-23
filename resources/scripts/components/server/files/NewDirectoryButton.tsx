@@ -37,12 +37,7 @@ const generateDirectoryData = (name: string): FileObject => ({
 });
 
 const NewDirectoryDialog = asDialog({
-    title: (
-        <div className="flex items-center gap-3">
-            <FolderPlus size={20} className="text-blue-400" />
-            <span>Create Directory</span>
-        </div>
-    ),
+    title: 'Create Directory',
 })(() => {
     const uuid = ServerContext.useStoreState((state) => state.server.data!.uuid);
     const directory = ServerContext.useStoreState((state) => state.files.directory);

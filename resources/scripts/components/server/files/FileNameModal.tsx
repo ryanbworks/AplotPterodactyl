@@ -5,7 +5,7 @@ import { ServerContext } from '@/state/server';
 import { join } from 'pathe';
 import { Dialog, DialogWrapperContext } from '@/components/elements/dialog';
 import asDialog from '@/hoc/asDialog';
-import { FilePlus, File, ChevronRight } from 'lucide-react';
+import { File, ChevronRight } from 'lucide-react';
 
 interface Props {
     onFileNamed: (name: string) => void;
@@ -16,12 +16,7 @@ interface Values {
 }
 
 const FileNameDialog = asDialog({
-    title: (
-        <div className="flex items-center gap-3">
-            <FilePlus size={20} className="text-blue-400" />
-            <span>Name Your File</span>
-        </div>
-    ),
+    title: 'Name Your File',
 })<{ onFileNamed: (name: string) => void }>(({ onFileNamed }) => {
     const directory = ServerContext.useStoreState((state) => state.files.directory);
     const { close } = useContext(DialogWrapperContext);

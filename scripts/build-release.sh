@@ -10,6 +10,13 @@ ARCHIVE="$BUILD_DIR/$APP_NAME-$VERSION.tar.gz"
 
 cd "$ROOT_DIR"
 
+if [[ -n "$(git status --porcelain)" ]]; then
+    echo "Refusing to build a release from a dirty working tree."
+    echo "Commit or stash your changes first so git archive HEAD includes the exact code you tested."
+    git status --short
+    exit 1
+fi
+
 rm -rf "$BUILD_DIR"
 mkdir -p "$WORK_DIR"
 
@@ -23,6 +30,7 @@ composer install \
     --no-interaction
 
 yarn --cwd "$WORK_DIR" install --frozen-lockfile
+yarn --cwd "$WORK_DIR" run tsc
 mkdir -p "$WORK_DIR/public/assets"
 yarn --cwd "$WORK_DIR" build:production
 
