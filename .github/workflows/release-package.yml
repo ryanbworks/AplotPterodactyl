@@ -1,0 +1,49 @@
+name: Build installable release
+
+on:
+  workflow_dispatch:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+jobs:
+  package:
+    runs-on: ubuntu-24.04
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.2"
+          extensions: bcmath, curl, gd, mbstring, mysql, redis, tar, xml, zip
+          tools: composer:v2
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: yarn
+
+      - name: Setup Yarn
+        run: npm install -g yarn@1.22.22
+
+      - name: Build package
+        run: bash scripts/build-release.sh "${GITHUB_REF_NAME:-manual}"
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: installable-release
+          path: build/release/*.tar.gz
+
+      - name: Attach to GitHub Release
+        if: startsWith(github.ref, 'refs/tags/')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: build/release/*.tar.gz
