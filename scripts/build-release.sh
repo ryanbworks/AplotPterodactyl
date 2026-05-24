@@ -7,6 +7,7 @@ ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 BUILD_DIR="$ROOT_DIR/build/release"
 WORK_DIR="$BUILD_DIR/$APP_NAME"
 ARCHIVE="$BUILD_DIR/$APP_NAME-$VERSION.tar.gz"
+PANEL_ARCHIVE="$BUILD_DIR/panel.tar.gz"
 
 cd "$ROOT_DIR"
 
@@ -58,9 +59,9 @@ You do not need Node, Yarn, or Composer on the target machine for the frontend b
 Basic install:
 
 ```bash
-tar -xzf aplot-pterodactyl-*.tar.gz
-mv aplot-pterodactyl /var/www/pterodactyl
+mkdir -p /var/www/pterodactyl
 cd /var/www/pterodactyl
+tar -xzf /path/to/panel.tar.gz
 
 cp .env.example .env
 nano .env
@@ -78,6 +79,6 @@ a new `APP_KEY`.
 EOF
 
 tar -C "$BUILD_DIR" -czf "$ARCHIVE" "$APP_NAME"
-cp "$ARCHIVE" "$BUILD_DIR/panel.tar.gz"
+tar -C "$WORK_DIR" -czf "$PANEL_ARCHIVE" .
 
 echo "$ARCHIVE"

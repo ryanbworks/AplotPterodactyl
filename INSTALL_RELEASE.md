@@ -12,6 +12,7 @@ The generated file will be in:
 
 ```txt
 build/release/aplot-pterodactyl-v1.0.0.tar.gz
+build/release/panel.tar.gz
 ```
 
 That package includes:
@@ -34,16 +35,17 @@ git tag v1.0.0
 git push origin v1.0.0
 ```
 
-The GitHub Action will build the package and attach the `.tar.gz` to the release.
-The person installing the panel should download that `.tar.gz`, not the source zip.
+The GitHub Action will build the packages and attach them to the release.
+The person installing the panel should download `panel.tar.gz`, not the source zip.
+The `panel.tar.gz` archive extracts directly into the current directory, matching the official Pterodactyl install flow.
 
 Target install:
 
 ```bash
-cd /var/www
-tar -xzf aplot-pterodactyl-v1.0.0.tar.gz
-mv aplot-pterodactyl pterodactyl
+mkdir -p /var/www/pterodactyl
 cd /var/www/pterodactyl
+curl -Lo panel.tar.gz https://github.com/ryanbworks/AplotPterodactyl/releases/download/latest/panel.tar.gz
+tar -xzf panel.tar.gz
 
 cp .env.example .env
 nano .env
